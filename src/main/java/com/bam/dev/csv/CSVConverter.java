@@ -20,11 +20,17 @@ public class CSVConverter<T> {
 
     private final CSVConfig<T> defaultCSVConfig;
 
+    public CSVConverter() {
+        this.defaultCSVConfig = null;
+    }
+
     public CSVConverter(CSVConfig<T> defaultCSVConfig) {
         this.defaultCSVConfig = defaultCSVConfig;
     }
 
     public File convert(List<T> data) {
+        if (defaultCSVConfig == null)
+            throw new RuntimeException("Default CSV Config not provided");
         return convert(data, defaultCSVConfig);
     }
 

@@ -17,6 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+
         List<Employee> employees = DataUtil.getEmployees(4);
 //        CSVConverter<Employee> employeeCSVConverter = new CSVConverter<>(CSV_CONFIG_EMPLOYEE);
 //        File employeeFile = employeeCSVConverter.convert(employees);
@@ -26,6 +27,10 @@ public class Main {
 //        CSVConverter<Company> companyCSVConverter = new CSVConverter<Company>(CSV_CONFIG_COMPANY);
 //        File companyFile = companyCSVConverter.convert(companies);
 //        printResult(companyFile);
+
+        CSVConverter<Employee> employeeCSVConverter = new CSVConverter<>();
+        File empFile = employeeCSVConverter.convert(employees, CSV_CONFIG_EMPLOYEE);
+        printResult(empFile);
 
         convertToCSVFiles(companies, CSV_CONFIG_COMPANY);
         convertToCSVFiles(employees, CSV_CONFIG_EMPLOYEE);
