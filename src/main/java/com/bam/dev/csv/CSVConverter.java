@@ -6,6 +6,7 @@ import lombok.Setter;
 import java.io.File;
 import java.io.FileWriter;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.List;
 
 import static com.bam.dev.csv.CSVConverter.CSVConfig.CSVColumn;
@@ -18,34 +19,35 @@ public class CSVConverter<T> {
     public static final String DEFAULT_NEW_LINE = "\n";
     public static final String DEFAULT_PATH_VARIABLE_SEPARATOR = "\\.";
 
-    private final CSVConfig defaultCSVConfig;
+    private final CSVConfig<T> defaultCSVConfig;
 
-    public CSVConverter(CSVConfig defaultCSVConfig) {
+    public CSVConverter() {
+        defaultCSVConfig = null;
+    }
+
+    public CSVConverter(CSVConfig<T> defaultCSVConfig) {
         this.defaultCSVConfig = defaultCSVConfig;
     }
 
     public File convert(List<T> data) {
+        if (defaultCSVConfig == null)
+            throw new RuntimeException("Default CSV Config Not found");
         return convert(data, defaultCSVConfig);
     }
 
-    public File convert(List<T> data, CSVConfig csvConfig) {
+    public File convert(Collection<T> data, CSVConfig<T> csvConfig) {
         File file = new File(csvConfig.getFileName() + CSVConverter.DEFAULT_EXTENSION);
         try (FileWriter fileWriter = new FileWriter(file)) {
             StringBuilder rows = new StringBuilder();
             rows.append(csvConfig.getHeaderNames());
             for (T object : data) {
                 rows.append(CSVConverter.DEFAULT_NEW_LINE);
-                StringBuilder columnValues = new StringBuilder();
+                StringBuilder singleRow = new StringBuilder();
                 for (CSVColumn csvColumn : csvConfig.getCsvColumns()) {
-                    String string = null;
                     Object obj = this.get(csvColumn.getPropertyName(), object);
-                    if (obj instanceof String)
-                        string = (String) obj;
-                    if (obj instanceof Integer || obj instanceof Double)
-                        string = obj.toString();
-                    columnValues.append(string).append(CSVConverter.DEFAULT_SEPARATOR);
+                    singleRow.append(obj).append(CSVConverter.DEFAULT_SEPARATOR);
                 }
-                rows.append(columnValues.toString());
+                rows.append(singleRow.toString());
             }
             fileWriter.write(rows.toString());
         } catch (Exception e) {
@@ -80,11 +82,12 @@ public class CSVConverter<T> {
 
     @Getter
     @Setter
-    public static class CSVConfig {
+    public static class CSVConfig<T> {
 
         private final String fileName;
         private final String headerNames;
         private final CSVColumn[] csvColumns;
+        private Class<T> tClass;
 
         public CSVConfig(String fileName, CSVColumn... csvColumns) {
             this.fileName = fileName;
@@ -106,8 +109,6 @@ public class CSVConverter<T> {
                 this.displayName = displayName;
                 this.propertyName = propertyName;
             }
-
         }
     }
-
 }
