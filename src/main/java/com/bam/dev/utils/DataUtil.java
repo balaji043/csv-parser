@@ -7,6 +7,7 @@ import lombok.experimental.UtilityClass;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bam.dev.csv.CSVConverter.CSVColumn;
 import static com.bam.dev.csv.CSVConverter.CSVConfig;
 
 @UtilityClass
@@ -14,15 +15,19 @@ public class DataUtil {
 
     public static final CSVConfig<Employee> CSV_CONFIG_EMPLOYEE = new CSVConfig<>(
             "Employee Details",
-            new CSVConfig.CSVColumn("Emp Name", "name"),
-            new CSVConfig.CSVColumn("Emp Age", "age"),
-            new CSVConfig.CSVColumn("Emp City", "city"),
-            new CSVConfig.CSVColumn("Emp Company Name", "companies.name")
+            new CSVColumn[]{
+                    new CSVColumn("Emp Name", "name"),
+                    new CSVColumn("Emp Age", "age"),
+                    new CSVColumn("Emp City", "city"),
+                    new CSVColumn("Emp Company Name", "companies.name")
+            }
     );
 
     public static final CSVConfig<Company> CSV_CONFIG_COMPANY = new CSVConfig<>(
             "Company Details",
-            new CSVConfig.CSVColumn("Company Name", "name")
+            new CSVColumn[]{
+                    new CSVColumn("Company Name", "name")
+            }
     );
 
     private static Company getCompany(int n) {
