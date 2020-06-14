@@ -16,6 +16,8 @@ public class CSVConverter<T> {
     public static final String DEFAULT_SEPARATOR = ",";
     public static final String DEFAULT_EMPTY_VALUE = "";
     public static final String DEFAULT_NEW_LINE = "\n";
+    public static final String DEFAULT_PATH_VARIABLE_SEPARATOR = "\\.";
+
     private final CSVConfig defaultCSVConfig;
 
     public CSVConverter(CSVConfig defaultCSVConfig) {
@@ -41,7 +43,7 @@ public class CSVConverter<T> {
                         string = (String) obj;
                     if (obj instanceof Integer || obj instanceof Double)
                         string = obj.toString();
-                    columnValues.append(string).append(",");
+                    columnValues.append(string).append(CSVConverter.DEFAULT_SEPARATOR);
                 }
                 rows.append(columnValues.toString());
             }
@@ -53,7 +55,7 @@ public class CSVConverter<T> {
     }
 
     public Object get(String path, T obj) {
-        String[] steps = path.split("\\.");
+        String[] steps = path.split(CSVConverter.DEFAULT_PATH_VARIABLE_SEPARATOR);
         Object result = obj;
         try {
             for (String step : steps) {
