@@ -19,7 +19,7 @@ public class DataUtil {
                     new CSVColumn("Emp Name", "name"),
                     new CSVColumn("Emp Age", "age"),
                     new CSVColumn("Emp City", "city"),
-                    new CSVColumn("Emp Company Name", "companies.name")
+                    new CSVColumn("Emp Company Name", "previousCompanies.name")
             }
     );
 
@@ -41,7 +41,7 @@ public class DataUtil {
         employee.setName("Employee" + i);
         employee.setAge(i + 20);
         employee.setCity("City");
-        employee.setCompanies(getCompanies(1));
+        employee.setPreviousCompanies(getCompanies(1));
         return employee;
     }
 

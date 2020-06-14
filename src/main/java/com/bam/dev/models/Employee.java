@@ -11,6 +11,5 @@ public class Employee {
     private String name;
     private Integer age;
     private String city;
-    private List<Company> companies;
-
+    private List<Company> previousCompanies;
 }

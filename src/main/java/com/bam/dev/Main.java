@@ -17,7 +17,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
         List<Employee> employees = DataUtil.getEmployees(4);
 //        CSVConverter<Employee> employeeCSVConverter = new CSVConverter<>(CSV_CONFIG_EMPLOYEE);
 //        File employeeFile = employeeCSVConverter.convert(employees);
