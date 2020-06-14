@@ -63,6 +63,10 @@ public class CSVConverter<T> {
                     return CSVConverter.DEFAULT_EMPTY_VALUE;
                 Method method = result.getClass().getMethod(createGetterName(step));
                 result = method.invoke(result);
+                if (result instanceof List) {
+                    List<?> list = (List<?>) result;
+                    result = list.get(0);
+                }
             }
             return result;
         } catch (Exception e) {
@@ -82,7 +86,7 @@ public class CSVConverter<T> {
         private final String headerNames;
         private final CSVColumn[] csvColumns;
 
-        public CSVConfig(String fileName, CSVColumn...csvColumns) {
+        public CSVConfig(String fileName, CSVColumn... csvColumns) {
             this.fileName = fileName;
             this.csvColumns = csvColumns;
             StringBuilder stringBuilder = new StringBuilder();

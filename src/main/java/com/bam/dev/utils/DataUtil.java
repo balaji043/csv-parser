@@ -18,7 +18,7 @@ public class DataUtil {
             new CSVConfig.CSVColumn("Emp Name", "name"),
             new CSVConfig.CSVColumn("Emp Age", "age"),
             new CSVConfig.CSVColumn("Emp City", "city"),
-            new CSVConfig.CSVColumn("Emp Company Name", "company.name")
+            new CSVConfig.CSVColumn("Emp Company Name", "companies.name")
     );
 
     public static Company getCompany(int n) {
@@ -32,7 +32,9 @@ public class DataUtil {
         employee.setName("Employee" + i);
         employee.setAge(i + 20);
         employee.setCity("City");
-        employee.setCompany(getCompany(i));
+        List<Company> companies = new ArrayList<>();
+        companies.add(getCompany(i));
+        employee.setCompanies(companies);
         return employee;
     }
 
